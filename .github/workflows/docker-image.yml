@@ -1,0 +1,40 @@
+name: Build and Push Docker Image
+
+# Trigger the workflow on push to the main branch or on pull request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The GitHub Actions runner will run on Ubuntu
+
+    steps:
+      # Check out the repository code
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Log in to Docker Hub (or any container registry)
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t my-python-app:latest .
+
+      # Push the Docker image to Docker Hub
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push my-python-app:latest
