@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from app.services import login, fetch_profile, fetch_sport, fetch_match_odds  # Corrected import
+from app.utils import login, fetch_profile, fetch_sport, fetch_match_odds  # Import from utils.py
 
 app = Flask(__name__)
 
